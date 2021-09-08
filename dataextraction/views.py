@@ -1,8 +1,20 @@
- # howdy/views.py
 from django.shortcuts import render
-from django.views.generic import TemplateView
-
+from . import forms
 # Create your views here.
-class HomePageView(TemplateView):
-    def get(self, request, **kwargs):
-        return render(request, 'index.html', context=None)
+def index(request):
+ return render(request, 'formTestApp/index.html')
+
+def form_name_view(request):
+ form = forms.FormName()
+ #Check to see if we are getting a POST request back
+ if request.method == "POST":
+  # if post method = True
+  form = forms.FormName(request.POST)
+  # Then we check to see if the form is valid (this is an automatic  validation by Django)
+  if form.is_valid():
+   # if form.is_valid == True then do something
+   print("Form validation successful! See console for information:")
+   print("Name: "+form.cleaned_data['name'])
+   print("email: "+form.cleaned_data['email'])
+   print("message: "+form.cleaned_data['text'])
+ return render(request, 'response.html', {'form': form})
