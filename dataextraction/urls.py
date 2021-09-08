@@ -4,5 +4,5 @@ from dataextraction import views
 
 
 urlpatterns = [
-    url(r'^$', views.HomePageView.as_view()),
+    url(r'^$', views.form_name_view.as_view()),
 ]
