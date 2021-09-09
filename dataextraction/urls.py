@@ -1,8 +1,9 @@
 # howdy/urls.py
-from django.conf.urls import url
+from django.urls import path
 from dataextraction import views
 
 
 urlpatterns = [
-    url(r'^$', views.form_name_view.as_view()),
+    path('', views.form_name_view, name ='forms'),
+    path('response', views.response_view, name ='responseview'),
 ]

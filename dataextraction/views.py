@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from . import forms
+import subprocess
 # Create your views here.
-def index(request):
- return render(request, 'formTestApp/index.html')
 
 def form_name_view(request):
  form = forms.FormName()
@@ -12,9 +11,23 @@ def form_name_view(request):
   form = forms.FormName(request.POST)
   # Then we check to see if the form is valid (this is an automatic  validation by Django)
   if form.is_valid():
+   PipelineName = form.cleaned_data['PipelineName']
+   ExecutionMode = form.cleaned_data['ExecutionMode']
+   TaskNumber = form.cleaned_data['TaskNumber']
+   DatabaseName = form.cleaned_data['DatabaseName']
+   SourceType = form.cleaned_data['SourceType']
    # if form.is_valid == True then do something
-   print("Form validation successful! See console for information:")
-   print("Name: "+form.cleaned_data['name'])
-   print("email: "+form.cleaned_data['email'])
-   print("message: "+form.cleaned_data['text'])
- return render(request, 'response.html', {'form': form})
+   
+ return render(request, 'index.html', {'form': form})
+ 
+ 
+def response_view(request):
+ PipelineName = request.POST['PipelineName']
+ ExecutionMode = request.POST['ExecutionMode']
+ TaskNumber = request.POST['TaskNumber']
+ DatabaseName = request.POST['DatabaseName']
+ SourceType = request.POST['SourceType']
+
+ p = subprocess.run(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe","D:\\dataextractionwithparams.ps1 {} {} {} {} {}".format(PipelineName,SourceType,DatabaseName,ExecutionMode,TaskNumber)], stdout=subprocess.PIPE, shell=True)
+ print(p.stdout)
+ return render(request, 'response.html')
