@@ -30,4 +30,5 @@ def response_view(request):
 
  p = subprocess.run(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe","D:\\dataextractionwithparams.ps1 {} {} {} {} {}".format(PipelineName,SourceType,DatabaseName,ExecutionMode,TaskNumber)], stdout=subprocess.PIPE, shell=True)
  print(p.stdout)
+ print("processing is done")
  return render(request, 'response.html')
